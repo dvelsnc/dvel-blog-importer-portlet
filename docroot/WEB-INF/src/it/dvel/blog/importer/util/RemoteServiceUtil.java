@@ -310,6 +310,18 @@ public class RemoteServiceUtil {
 			throw new NoSuchUserException();
 		}
 
+		if (userSoap.isDefaultUser()) {
+			_log.info("L'utente remoto " + userSoap.getEmailAddress() +
+				" è il default della company: recupero dell'utente di default corrente");
+			User defaultUser = UserLocalServiceUtil.getDefaultUser(companyId);
+
+			_log.info("Utente locale di default trovato: " +
+				defaultUser.getEmailAddress() + " (" + defaultUser.getUserId() +
+				")");
+
+			return defaultUser;
+		}
+
 		_log.info("Ricerca utente locale " + userSoap.getEmailAddress() +
 			" per email e per screenname");
 		User user =
